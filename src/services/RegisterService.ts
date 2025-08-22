@@ -59,11 +59,7 @@ export const Register = () => {
     } catch(err) {
         throw new Error(`Failed to Register ${err}`)
     } 
-    // finally {
-
-    //     setLoading(false)
-
-    // }
+    
 }
 
     return {
