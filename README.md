@@ -1,5 +1,16 @@
 # React + TypeScript + Vite and NestJS for Backend
 
+STEPS FOR REACT SETUP
+
+STEP 1 => DOWNLOAD NODEJS
+STEP 2 => CLONE APP
+STEP 3 => run npm install
+STEP 4 => run npm run dev
+STEP 5 => cd to backend
+STEP 6 => run npm install
+STEP 7 => IN YOUR BACKEND run npm run start:dev
+
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
