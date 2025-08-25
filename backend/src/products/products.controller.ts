@@ -23,14 +23,14 @@ export class ProductsController {
     return await this.productsService.findAll();
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  // @UseGuards(AuthGuard('jwt'))
   @Get(':id')
   async findOne(@Param('id') id: number) {
 
     return await this.productsService.findOne(id);
   }
   
-  @UseGuards(AuthGuard('jwt'))
+  // @UseGuards(AuthGuard('jwt'))
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
     // const user = req.user

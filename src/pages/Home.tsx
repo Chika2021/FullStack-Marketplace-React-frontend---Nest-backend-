@@ -81,7 +81,7 @@ const Home: React.FC = () => {
                   <p className="text-gray-600 mb-4">{product.description}</p>
                   <p className="text-lg font-bold text-blue-600">${product.price}</p>
                   <a
-                    href="#"
+                    href={`/products/${product.id}`}
                     className="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
                   >
                     Shop Now

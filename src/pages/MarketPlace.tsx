@@ -1,11 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import HeroSection from '../component/HeroSection'
 import { useProducts } from '../services/HomeService'
+import { useCart } from '../context/CartContext'
 
 
 const MarketPlace: React.FC = () => {
 
   const { products, loading, error } = useProducts()
+  const { addToCart } = useCart();
+  const [showToast, setShowToast] = useState(false);
+
+  const handleAddToCart = (product: any) => {
+    addToCart(product);
+    setShowToast(true);
+    setTimeout(() => setShowToast(false), 1200);
+  };
 
   if (loading) {
     return <div className="text-center mt-10">Loading products...</div>
@@ -13,6 +22,11 @@ const MarketPlace: React.FC = () => {
   if (error) {
     return <div className="text-center mt-10 text-red-500">{error}</div>;
   }
+  function productDetails(id: number): void {
+    // Navigate to product details page
+    window.location.href = `/products/${id}`;
+  }
+
   return (
     <div>
       <HeroSection />
@@ -45,10 +59,31 @@ const MarketPlace: React.FC = () => {
                 <span>${product.price}</span>
               </p>
               <div className="text-xs flex justify-between flex-wrap mt-1">
-                <button className="flex items-center px-2 py-1 gap-x-2 bg-blue-600 border-2 border-blue-600 hover:bg-transparent rounded text-white hover:text-inherit">
+                <button
+                  className="flex items-center px-2 py-1 gap-x-2 bg-blue-600 border-2 border-blue-600 hover:bg-transparent rounded text-white hover:text-inherit"
+                  onClick={() => handleAddToCart(product)}
+                >
                   Add to cart
                 </button>
-                <button className="flex items-center px-2 py-1 gap-x-2 bg-blue-600 border-2 border-blue-600 hover:bg-transparent rounded text-white hover:text-inherit">
+      {showToast && (
+        <div style={{
+          position: 'fixed',
+          top: 30,
+          right: 30,
+          background: '#10b981',
+          color: '#fff',
+          padding: '12px 24px',
+          borderRadius: 8,
+          fontWeight: 600,
+          fontSize: 16,
+          boxShadow: '0 2px 8px rgba(16,185,129,0.12)',
+          zIndex: 2000,
+          transition: 'opacity 0.3s',
+        }}>
+          Added to cart!
+        </div>
+      )}
+                <button onClick={() => productDetails(product.id)} className="flex items-center px-2 py-1 gap-x-2 bg-blue-600 border-2 border-blue-600 hover:bg-transparent rounded text-white hover:text-inherit">
                   View
                 </button>
               </div>
