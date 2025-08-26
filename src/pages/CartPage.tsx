@@ -31,12 +31,21 @@ function CartPage() {
           {cart.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2)}
         </span>
       </div>
-      <button
-        onClick={clearCart}
-        className="mt-4 bg-gray-900 text-white px-4 py-2 rounded"
-      >
-        Clear Cart
-      </button>
+      <div className="flex gap-4 mt-4">
+        <button
+          onClick={clearCart}
+          className="bg-gray-900 text-white px-4 py-2 rounded"
+        >
+          Clear Cart
+        </button>
+        <a
+          href="/payment"
+          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded font-bold text-center"
+          style={{ display: 'inline-block' }}
+        >
+          Proceed to Checkout
+        </a>
+      </div>
     </div>
   );
 }

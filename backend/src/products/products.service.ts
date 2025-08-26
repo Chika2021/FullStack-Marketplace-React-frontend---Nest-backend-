@@ -6,6 +6,12 @@ import { Product } from './entities/product.entity';
 import { DeleteResult, Repository } from 'typeorm';
 import { User } from 'src/user/model/user.model';
 
+import * as dotenv from 'dotenv';
+dotenv.config();
+import * as Paystack from 'paystack-api';
+// console.log('PAYSTACK_SECRET_KEY (service):', process.env.PAYSTACK_SECRET_KEY);
+const paystack = Paystack(process.env.PAYSTACK_SECRET_KEY);
+
 @Injectable()
 export class ProductsService {
 
@@ -34,6 +40,40 @@ export class ProductsService {
 
   async format():Promise<DeleteResult> {
     return await this.productRepository.deleteAll()
+  }
+
+  /**
+   * Initialize Paystack transaction for product purchase
+   * @param amount Amount in Naira
+   * @param email Buyer's email
+   * @param productId Product being purchased
+   */
+  async initializePayment(email: string, productId: number) {
+    // Fetch product from DB
+    const product = await this.productRepository.findOne({ where: { id: productId } });
+    if (!product) {
+      throw new Error('Product not found');
+    }
+    // Paystack expects amount in Kobo
+    const koboAmount = product.price * 100;
+    const response = await paystack.transaction.initialize({
+      amount: koboAmount,
+      email,
+      metadata: {
+        productId,
+        productName: product.name,
+      },
+    });
+    return response;
+  }
+
+  /**
+   * Verify Paystack transaction
+   * @param reference Transaction reference
+   */
+  async verifyPayment(reference: string) {
+    const response = await paystack.transaction.verify({ reference });
+    return response;
   }
 
 }

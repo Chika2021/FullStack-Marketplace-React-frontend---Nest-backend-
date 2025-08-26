@@ -48,4 +48,23 @@ export class ProductsController {
   async format() {
     return await this.productsService.format();
   }
+
+  /**
+   * Initialize Paystack payment for a product
+   * POST /products/paystack/init
+   * Body: { amount: number, email: string, productId: number }
+   */
+  @Post('paystack/init')
+  async initializePayment(@Body() body: { email: string; productId: number }) {
+    return await this.productsService.initializePayment(body.email, body.productId);
+  }
+
+  /**
+   * Verify Paystack payment
+   * GET /products/paystack/verify/:reference
+   */
+  @Get('paystack/verify/:reference')
+  async verifyPayment(@Param('reference') reference: string) {
+    return await this.productsService.verifyPayment(reference);
+  }
 }

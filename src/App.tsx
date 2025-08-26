@@ -17,6 +17,7 @@ import { CartProvider } from './context/CartContext'
 import CartPage from './pages/CartPage'
 import CartDisplay from './component/CartDisplay'
 import CartIcon from './component/CartIcon'
+import PaymentPage from './pages/PaymentPage'
 
 function App() {
 
@@ -43,7 +44,7 @@ function App() {
           <Route path="/register" element={<CreateUser />} />
           <Route path="/login" element={<Login />} />
           <Route path='/products/:id' element ={<ProductDetail />} />
-          <Route path="/payment" element={<CartPage />} />
+          <Route path="/payment" element={<PaymentPage />} />
         </Routes>
   <Footer />
   {/* Cart icon to open/close cart */}
