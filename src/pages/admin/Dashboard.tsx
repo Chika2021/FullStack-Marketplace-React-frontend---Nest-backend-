@@ -8,7 +8,8 @@ function Dashboard(): React.ReactElement {
     const [error, setError] = useState<string | null>(null);
 
     // Fetch products
-    useEffect(() => {
+    const fetchProducts = () => {
+        setLoading(true);
         fetch('http://localhost:3000/products')
             .then(res => res.json())
             .then(data => {
@@ -19,13 +20,22 @@ function Dashboard(): React.ReactElement {
                 setError('Failed to fetch products');
                 setLoading(false);
             });
+    };
+    useEffect(() => {
+        fetchProducts();
     }, []);
 
     // Delete product
     const handleDelete = async (id: number) => {
         if (!window.confirm('Are you sure you want to delete this product?')) return;
-        await fetch(`http://localhost:3000/products/${id}`, { method: 'DELETE' });
-        setProducts(products.filter((p: any) => p.id !== id));
+        const token = localStorage.getItem("token");
+        await fetch(`http://localhost:3000/products/${id}`, {
+            method: 'DELETE',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        fetchProducts();
     };
     const handleLogout = () => {
         localStorage.removeItem("token");
