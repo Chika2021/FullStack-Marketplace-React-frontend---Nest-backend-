@@ -73,13 +73,13 @@ function Dashboard(): React.ReactElement {
                         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                             <div className="bg-white p-6 rounded-lg shadow-md">
                                 <p className="text-sm text-gray-500">Total Users</p>
-                                <h2 className="text-3xl font-bold text-purple-700 mt-2">1,240</h2>
+                                <h2 className="text-3xl font-bold text-purple-700 mt-2">240</h2>
                             </div>
 
                             <div  className="bg-white p-6 rounded-lg shadow-md">
                                 <p className="text-sm text-gray-500">Add product</p>
                                 <Link to="/create">
-                                    <h2 className="text-3xl font-bold text-green-600 mt-2">Products</h2>
+                                    <h2 className="text-3xl font-bold text-green-600 mt-2">{products.length} </h2>
                                 </Link>
                             </div>
                             <div className="bg-white p-6 rounded-lg shadow-md">
@@ -144,23 +144,8 @@ function Dashboard(): React.ReactElement {
                                 Delete Records
                             </button>
                         </div>
-                        <div className="bg-white p-6 rounded-lg shadow-md flex items-center gap-6">
-                            <img
-                                src="https://i.pravatar.cc/100"
-                                alt="Profile"
-                                className="w-20 h-20 rounded-full shadow"
-                            />
-                            <div>
-                                <h3 className="text-xl font-bold text-purple-700">Sophia Ray</h3>
-                                <p className="text-gray-500">Administrator</p>
-                                <button className="mt-2 bg-purple-600 text-white px-4 py-2 rounded-lg shadow hover:bg-purple-700">
-                                    Edit Profile
-                                </button>
-                            </div>
-                        </div>
-                        <footer className="bg-white p-4 mt-10 text-center text-sm text-gray-400 border-t">
-                            © 2025 AdminPanel. All rights reserved.
-                        </footer>
+                      
+                       
                     </main>
                 </div>
             </div>
