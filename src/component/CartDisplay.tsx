@@ -24,7 +24,7 @@ const CartDisplay: React.FC = () => {
       display: "flex",
       flexDirection: "column"
     }}>
-      <h3 style={{ fontSize: 20, fontWeight: 700, marginBottom: 16, color: '#3428d9ff', letterSpacing: 1 }}>🛒 Cart Items</h3>
+      <h3 style={{ fontSize: 20, fontWeight: 700, marginBottom: 16, color: '#0552f7ff', letterSpacing: 1 }}>🛒 Cart Items</h3>
       {cart.length === 0 ? (
         <div style={{ color: '#888', fontStyle: 'italic', textAlign: 'center' }}>No items in cart</div>
       ) : (

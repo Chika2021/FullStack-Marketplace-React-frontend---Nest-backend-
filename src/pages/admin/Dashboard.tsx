@@ -1,8 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 function Dashboard(): React.ReactElement {
     const navigate = useNavigate();
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // Fetch products
+    useEffect(() => {
+        fetch('http://localhost:3000/products')
+            .then(res => res.json())
+            .then(data => {
+                setProducts(data);
+                setLoading(false);
+            })
+            .catch(err => {
+                setError('Failed to fetch products');
+                setLoading(false);
+            });
+    }, []);
+
+    // Delete product
+    const handleDelete = async (id: number) => {
+        if (!window.confirm('Are you sure you want to delete this product?')) return;
+        await fetch(`http://localhost:3000/products/${id}`, { method: 'DELETE' });
+        setProducts(products.filter((p: any) => p.id !== id));
+    };
     const handleLogout = () => {
         localStorage.removeItem("token");
         window.location.href = "/";
@@ -68,31 +92,42 @@ function Dashboard(): React.ReactElement {
                             </div>
                         </div>
                         <div className="bg-white rounded-lg shadow-md">
-                            <div className="p-4 border-b font-bold text-purple-700">User List</div>
-                            <table className="w-full text-left">
-                                <thead className="bg-purple-50">
-                                    <tr>
-                                        <th className="p-4">Name</th>
-                                        <th className="p-4">Email</th>
-                                        <th className="p-4">Role</th>
-                                        <th className="p-4">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr className="border-t">
-                                        <td className="p-4">John Doe</td>
-                                        <td className="p-4">john@example.com</td>
-                                        <td className="p-4">Admin</td>
-                                        <td className="p-4 text-green-600 font-bold">Active</td>
-                                    </tr>
-                                    <tr className="border-t">
-                                        <td className="p-4">Jane Smith</td>
-                                        <td className="p-4">jane@example.com</td>
-                                        <td className="p-4">Editor</td>
-                                        <td className="p-4 text-yellow-500 font-bold">Pending</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div className="p-4 border-b font-bold text-purple-700">Product List</div>
+                            {loading ? (
+                                <div className="p-4 text-center">Loading products...</div>
+                            ) : error ? (
+                                <div className="p-4 text-center text-red-500">{error}</div>
+                            ) : (
+                                <table className="w-full text-left">
+                                    <thead className="bg-purple-50">
+                                        <tr>
+                                            <th className="p-4">Name</th>
+                                            <th className="p-4">Description</th>
+                                            <th className="p-4">Price</th>
+                                            <th className="p-4">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {products.map((product: any) => (
+                                            <tr key={product.id} className="border-t">
+                                                <td className="p-4">{product.name}</td>
+                                                <td className="p-4">{product.description}</td>
+                                                <td className="p-4">₦{product.price}</td>
+                                                <td className="p-4 flex gap-2">
+                                                    <button
+                                                        onClick={() => navigate(`/edit?id=${product.id}`)}
+                                                        className="bg-blue-500 text-white px-3 py-1 rounded"
+                                                    >Edit</button>
+                                                    <button
+                                                        onClick={() => handleDelete(product.id)}
+                                                        className="bg-red-500 text-white px-3 py-1 rounded"
+                                                    >Delete</button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            )}
                         </div>
                         <div className="bg-white p-6 rounded-lg shadow-md grid grid-cols-2 md:grid-cols-4 gap-4">
 
