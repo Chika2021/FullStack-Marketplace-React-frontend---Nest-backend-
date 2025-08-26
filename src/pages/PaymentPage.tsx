@@ -13,14 +13,14 @@ const PaymentPage: React.FC = () => {
     e.preventDefault();
     if (!email || cart.length === 0) return;
     setLoading(true);
-    // For demo: use the first product in cart
-    const productId = cart[0].id;
+  // Send total amount and first productId for reference
+  const productId = cart[0].id;
     try {
       // Call backend to initialize payment
-  const res = await fetch("http://localhost:3000/products/paystack/init", {
+      const res = await fetch("http://localhost:3000/products/paystack/init", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, productId })
+        body: JSON.stringify({ email, productId, amount: totalAmount })
       });
       const data = await res.json();
       if (data?.data?.authorization_url) {

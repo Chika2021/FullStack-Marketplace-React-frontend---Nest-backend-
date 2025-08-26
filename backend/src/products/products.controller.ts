@@ -6,11 +6,11 @@ import { AuthGuard } from '@nestjs/passport';
 
 @Controller('products')
 export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {}
+  constructor(private readonly productsService: ProductsService) { }
 
   @UseGuards(AuthGuard('jwt'))
   @Post()
-  async create(@Body() createProductDto: CreateProductDto, @Request() req ) {
+  async create(@Body() createProductDto: CreateProductDto, @Request() req) {
     const user = req.user
     return await this.productsService.create(createProductDto, user);
   }
@@ -29,7 +29,7 @@ export class ProductsController {
 
     return await this.productsService.findOne(id);
   }
-  
+
   // @UseGuards(AuthGuard('jwt'))
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
@@ -55,9 +55,11 @@ export class ProductsController {
    * Body: { amount: number, email: string, productId: number }
    */
   @Post('paystack/init')
-  async initializePayment(@Body() body: { email: string; productId: number }) {
-    return await this.productsService.initializePayment(body.email, body.productId);
+  async initializePayment(@Body() body: { email: string; productId: number; amount: number }) {
+    return await this.productsService.initializePayment(body.email, body.amount, body.productId);
   }
+
+
 
   /**
    * Verify Paystack payment
